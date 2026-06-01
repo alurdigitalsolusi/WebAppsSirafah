@@ -149,7 +149,7 @@
                             <p class="text-[10px] text-emerald-200 italic">"Sebaik-baik kalian adalah orang yang mempelajari Al-Qur'an dan mengajarkannya." (HR. Bukhari)</p>
                         </div>
                         <div class="w-full h-44 rounded-xl overflow-hidden border-2 border-emerald-500/30 shadow-lg relative bg-emerald-950 hidden md:block">
-                            <img src="background.jpeg" alt="Islamic Art" class="w-full h-full object-cover opacity-80" onerror="this.src='https://placehold.co/600x400/064e3b/ffffff?text=Al-Qur%27an'">
+                            <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=600&q=80" alt="Islamic Art" class="w-full h-full object-cover opacity-80" onerror="this.src='https://placehold.co/600x400/064e3b/ffffff?text=Al-Qur%27an'">
                             <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/80 via-transparent to-transparent flex items-end p-3">
                                 <span class="text-[10px] text-amber-300 font-bold bg-emerald-900/80 px-2 py-0.5 rounded-full"><i class="fa-solid fa-kaaba mr-1"></i> LPKA Yogyakarta</span>
                             </div>
@@ -246,7 +246,7 @@
                         <div class="space-y-4">
                             <h4 class="font-bold text-slate-700"><i class="fa-solid fa-star-and-crescent text-amber-500 mr-2"></i>Mutiara Hikmah</h4>
                             <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-100 space-y-2">
-                                <p class="arabic-font text-right text-emerald-900 text-lg">"اقْرَءُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ"</p>
+                                <p class="arabic-font text-right text-emerald-900 text-lg">"اقْرَءُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْMَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ"</p>
                                 <p class="text-xs text-slate-600 leading-relaxed italic">"Bacalah Al-Qur'an, karena sesungguhnya ia akan datang pada hari kiamat sebagai pemberi syafa'at bagi para pembacanya."</p>
                                 <p class="text-[10px] text-amber-700 font-bold text-right">— HR. Muslim</p>
                             </div>
@@ -921,7 +921,7 @@
                 <h3 class="font-bold text-md text-amber-300" id="modal-jadwal-title">Form Rencana Jadwal Setoran</h3>
                 <button onclick="closeJadwalModal()" class="text-white hover:text-amber-300"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-            <form id="form-jadwal" onsubmit="handleJadwalSubmit(event)" class="p-5 space-y-4">
+            <form id="form-jadwal" onsubmit="handleJadwalSubmit(event)" class="p-5 space-y-4 max-h-[85vh] overflow-y-auto">
                 <input type="hidden" id="jadwal-id">
                 <div>
                     <label class="text-xs font-semibold text-slate-600 block mb-1">Pilih Anak Binaan *</label>
@@ -946,10 +946,21 @@
                         <input type="date" id="jadwal-tanggal" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                 </div>
+                
+                <!-- Checklist Surah Juz 30 -->
                 <div>
-                    <label class="text-xs font-semibold text-slate-600 block mb-1">Target Surah / Ayat *</label>
-                    <input type="text" id="jadwal-surah" required placeholder="Contoh: Surah An-Naba' 1-20" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Pilih Target Surah (Juz 30) *</label>
+                    <input type="text" id="search-surah-checklist" oninput="filterSurahChecklist()" placeholder="Cari nama surah..." class="w-full px-2.5 py-1.5 mb-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                    <div id="surah-checklist-container" class="max-h-32 overflow-y-auto border border-slate-200 rounded-lg p-2.5 grid grid-cols-2 gap-2 bg-slate-50">
+                        <!-- Rendered dynamically -->
+                    </div>
                 </div>
+
+                <div>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Keterangan Ayat / Target Tambahan (Opsional)</label>
+                    <input type="text" id="jadwal-ayat" placeholder="Contoh: Ayat 1-15, Semua, dll." class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
                 <div>
                     <label class="text-xs font-semibold text-slate-600 block mb-1">Ustadz Pembina *</label>
                     <input type="text" id="jadwal-pembina" required placeholder="Nama Pembina" value="Ustadz Ahmad" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -972,11 +983,11 @@
     <script>
         // --- 1. SEED DATA / STATE AWAL (Untuk Mode Simulasi Offline / LocalStorage) ---
         const DEFAULT_ANAK = [
-            { id: "1", noreg: "REG-1011/B", nama: "Faisal Rahman", kamar: "Kamar Ahmad Dahlan", kelompok: "Tahfidz Juz 30", tglmasuk: "2025-01-10", status: "Aktif", juz: "30", surah: "An-Naba'", ayat: "20", catatan: "Fokus kelancaran makhraj kho'", tglupdate: "2026-05-30" },
-            { id: "2", noreg: "REG-1025/B", nama: "Aditya Pratama", kamar: "Kamar Ki Hajar Dewantara", kelompok: "Al-Quran Dasar", tglmasuk: "2025-03-15", status: "Aktif", juz: "1", surah: "Al-Baqarah", ayat: "45", catatan: "Tajwid izhar harus konsisten", tglupdate: "2026-05-29" },
-            { id: "3", noreg: "REG-1044/C", nama: "Rian Hidayat", kamar: "Kamar Cut Nyak Dien", kelompok: "Iqra 4-6", tglmasuk: "2025-06-01", status: "Aktif", juz: "Iqra 5", surah: "Halaman 12", ayat: "-", catatan: "Terbata-bata pada huruf bersambung", tglupdate: "2026-05-28" },
-            { id: "4", noreg: "REG-1052/B", nama: "Yusuf Al-Ghifari", kamar: "Kamar Ahmad Dahlan", kelompok: "Tahfidz Juz 30", tglmasuk: "2025-02-18", status: "Aktif", juz: "30", surah: "Ad-Duha", ayat: "11", catatan: "Selesai surah ad-duha, lancar jaya", tglupdate: "2026-05-30" },
-            { id: "5", noreg: "REG-1060/A", nama: "Budi Santoso", kamar: "Kamar Cut Nyak Dien", kelompok: "Iqra 1-3", tglmasuk: "2025-08-20", status: "Tidak Aktif", juz: "Iqra 2", surah: "Halaman 5", ayat: "-", catatan: "Izin pengurusan kepulangan", tglupdate: "2026-04-15" }
+            { id: "1", noreg: "REG-1011/B", nama: "Faisal Rahman", kamar: "Kamar Ahmad Dahlan", kelompok: "Tahfidz Juz 30", tglmasuk: "2025-01-10", status: "Aktif", juz: "30", surah: "An-Naba'", ayat: "20", catatan: "Fokus kelancaran makhraj kho'", tglupdate: "2026-05-30", hafalan_list: ["An-Naba'", "An-Nazi'at", "'Abasa"] },
+            { id: "2", noreg: "REG-1025/B", nama: "Aditya Pratama", kamar: "Kamar Ki Hajar Dewantara", kelompok: "Al-Quran Dasar", tglmasuk: "2025-03-15", status: "Aktif", juz: "1", surah: "Al-Baqarah", ayat: "45", catatan: "Tajwid izhar harus konsisten", tglupdate: "2026-05-29", hafalan_list: [] },
+            { id: "3", noreg: "REG-1044/C", nama: "Rian Hidayat", kamar: "Kamar Cut Nyak Dien", kelompok: "Iqra 4-6", tglmasuk: "2025-06-01", status: "Aktif", juz: "Iqra 5", surah: "Halaman 12", ayat: "-", catatan: "Terbata-bata pada huruf bersambung", tglupdate: "2026-05-28", hafalan_list: [] },
+            { id: "4", noreg: "REG-1052/B", nama: "Yusuf Al-Ghifari", kamar: "Kamar Ahmad Dahlan", kelompok: "Tahfidz Juz 30", tglmasuk: "2025-02-18", status: "Aktif", juz: "30", surah: "Ad-Duha", ayat: "11", catatan: "Selesai surah ad-duha, lancar jaya", tglupdate: "2026-05-30", hafalan_list: ["An-Nas", "Al-Falaq", "Al-Ikhlas", "Al-Masad", "An-Nasr", "Al-Kafirun", "Al-Kawthar", "Al-Ma'un", "Quraysh", "Al-Fil", "Al-Humazah", "Al-'Asr", "At-Takathur", "Al-Qari'ah", "Al-'Adiyat", "Az-Zalzalah", "Al-Bayyinah", "Al-Qadr", "Al-'Alaq", "At-Tin", "Al-Inshirah", "Ad-Duha"] },
+            { id: "5", noreg: "REG-1060/A", nama: "Budi Santoso", kamar: "Kamar Cut Nyak Dien", kelompok: "Iqra 1-3", tglmasuk: "2025-08-20", status: "Tidak Aktif", juz: "Iqra 2", surah: "Halaman 5", ayat: "-", catatan: "Izin pengurusan kepulangan", tglupdate: "2026-04-15", hafalan_list: [] }
         ];
 
         const DEFAULT_ABSENSI = [
@@ -997,6 +1008,16 @@
         const DEFAULT_ANNOUNCEMENTS = [
             { id: "a1", title: "Ujian Semester Hafalan Juz 30", content: "Ujian hafalan semester genap akan dilaksanakan pada tanggal 15 Juni 2026.", author: "Ustadz Ahmad", date: "01 Juni 2026" },
             { id: "a2", title: "Kunjungan Pembina Kemenag", content: "Akan diadakan monitoring dari Kemenag DIY pada hari Kamis ini pukul 09.00 WIB.", author: "Pembina LPKA", date: "28 Mei 2026" }
+        ];
+
+        // Daftar Surah di Juz 30
+        const SURAH_JUZ_30 = [
+            "An-Naba'", "An-Nazi'at", "'Abasa", "At-Takwir", "Al-Infitar", "Al-Mutaffifin", 
+            "Al-Inshiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghashiyah", "Al-Fajr", 
+            "Al-Balad", "Ash-Shams", "Al-Layl", "Ad-Duha", "Al-Inshirah", "At-Tin", 
+            "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-'Adiyat", "Al-Qari'ah", 
+            "At-Takathur", "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraysh", "Al-Ma'un", 
+            "Al-Kawthar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"
         ];
 
         // --- State Utama ---
@@ -1169,7 +1190,7 @@
             document.getElementById('stat-total-anak').textContent = anakAktif.length;
 
             const todayStr = getTodayDateStr();
-            const absToday = appData.absening || appData.absensi.find(a => a.date === todayStr);
+            const absToday = appData.absensi.find(a => a.date === todayStr);
 
             let hadirCount = 0;
             if (absToday) {
@@ -1196,32 +1217,6 @@
             });
             const avgAbs = totalRecords > 0 ? Math.round((totalHadir / totalRecords) * 100) : 85; // fallback
             document.getElementById('stat-avg-absensi').textContent = avgAbs + "%";
-
-            // Dashboard Jadwal Table (Safely check if element exists since we removed it from the Dashboard layout)
-            const dashTable = document.getElementById('dash-jadwal-table');
-            if (dashTable) {
-                dashTable.innerHTML = '';
-                if (jadwalToday.length === 0) {
-                    dashTable.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Tidak ada jadwal setoran hari ini.</td></tr>`;
-                } else {
-                    jadwalToday.forEach(j => {
-                        const ank = appData.anak.find(a => a.noreg === j.noreg) || { nama: 'Santri' };
-                        const tr = document.createElement('tr');
-                        tr.className = "border-b hover:bg-slate-50";
-                        tr.innerHTML = `
-                            <td class="p-3 font-semibold text-slate-700">${ank.nama}</td>
-                            <td class="p-3 text-emerald-800 font-medium">${j.surah}</td>
-                            <td class="p-3 text-slate-500">${j.pembina}</td>
-                            <td class="p-3 text-center">
-                                <button onclick="switchTab('rapor'); presetRaporSantri('${j.noreg}', '${j.surah}')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-2 py-1 rounded text-[10px] transition shadow-sm">
-                                    <i class="fa-solid fa-pen-to-square"></i> Beri Nilai
-                                </button>
-                            </td>
-                        `;
-                        dashTable.appendChild(tr);
-                    });
-                }
-            }
 
             const dashHariIni = document.getElementById('dash-hari-ini');
             if (dashHariIni) {
@@ -1566,6 +1561,12 @@
                     progressText = `Juz ${a.juz} - Surah ${a.surah} Ayat ${a.ayat}`;
                 }
 
+                // Inisialisasi list hafalan jika kosong
+                if (!a.hafalan_list) {
+                    a.hafalan_list = [];
+                }
+                const hafalanCount = a.hafalan_list.length;
+
                 // Hasilkan dropdown opsi tingkatan Juz/Iqra secara dinamis
                 let juzOptionsHtml = '';
                 for (let i = 1; i <= 6; i++) {
@@ -1588,7 +1589,7 @@
                             <span class="text-xs font-mono text-slate-400">${a.noreg}</span>
                         </div>
 
-                        <!-- Bacaan Terakhir Info Box (Tanpa Progress Bar) -->
+                        <!-- Bacaan Terakhir Info Box -->
                         <div class="p-3 bg-emerald-50/50 rounded-xl border border-emerald-100 flex items-center justify-between">
                             <div>
                                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Posisi Bacaan Terakhir</p>
@@ -1596,6 +1597,26 @@
                             </div>
                             <div class="text-emerald-700 bg-white shadow-sm border border-emerald-100 p-2 rounded-lg">
                                 <i class="fa-solid fa-book-open text-base"></i>
+                            </div>
+                        </div>
+
+                        <!-- Monitoring Progress Jumlah Surah Dihafal (Juz 30) -->
+                        <div class="mt-2 pt-2 border-t border-slate-100">
+                            <div class="flex justify-between items-center text-xs mb-1">
+                                <span class="font-bold text-slate-700"><i class="fa-solid fa-square-poll-horizontal text-emerald-600 mr-1"></i>Hafalan Juz 30:</span>
+                                <span class="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full text-[10px]">${hafalanCount} dari 37 Surah</span>
+                            </div>
+                            
+                            <button onclick="toggleHafalanDetail('${a.id}')" class="text-[11px] text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1 focus:outline-none py-1">
+                                <i class="fa-solid fa-folder-open text-amber-500"></i> Lihat/Edit Daftar Surah Dihafal
+                            </button>
+                            
+                            <!-- Dropdown Checklist Detail Surah -->
+                            <div id="hafalan-detail-${a.id}" class="hidden mt-2 p-3 bg-slate-50 rounded-xl border border-slate-200 text-[10px]">
+                                <p class="font-bold text-slate-500 mb-2 uppercase tracking-wider border-b pb-1">Daftar Surah Juz 30 (Centang jika lulus):</p>
+                                <div class="grid grid-cols-2 gap-1.5 max-h-40 overflow-y-auto pr-1">
+                                    ${renderSurahHafalanChecklist(a)}
+                                </div>
                             </div>
                         </div>
 
@@ -1619,12 +1640,62 @@
                             <input type="text" id="quick-catatan-${a.id}" value="${a.catatan || ''}" placeholder="Catatan perkembangan..." class="px-2 py-1 border rounded text-xs flex-1 focus:outline-none focus:ring-1 focus:ring-emerald-500">
                             <button onclick="updateQuickProgress('${a.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded text-xs shadow transition shrink-0">
                                 Update
-                              </button>
+                            </button>
                         </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        // Menghasilkan daftar HTML check list surah yang sudah lunas dihafal
+        function renderSurahHafalanChecklist(anakObj) {
+            let html = '';
+            SURAH_JUZ_30.forEach((surah, index) => {
+                const isChecked = anakObj.hafalan_list && anakObj.hafalan_list.includes(surah);
+                html += `
+                    <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-1.5 rounded border border-slate-200/60 hover:bg-emerald-50/50 transition">
+                        <input type="checkbox" onchange="toggleSurahHafalanByIndex('${anakObj.id}', ${index}, this.checked)" ${isChecked ? 'checked' : ''} class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 h-3 w-3 cursor-pointer">
+                        <span class="text-slate-700 select-none leading-none font-medium truncate">${surah}</span>
+                    </label>
+                `;
+            });
+            return html;
+        }
+
+        // Toggle Expand/Collapse Daftar Surah
+        function toggleHafalanDetail(anakId) {
+            const container = document.getElementById(`hafalan-detail-${anakId}`);
+            if (container) {
+                container.classList.toggle('hidden');
+            }
+        }
+
+        // Fungsi Simpan Cepat Checklist Perubahan Surah Hafalan Anak (Melalui Sistem Index Bebas Masalah Kutip)
+        function toggleSurahHafalanByIndex(anakId, surahIndex, isChecked) {
+            const surahName = SURAH_JUZ_30[surahIndex];
+            const idx = appData.anak.findIndex(a => a.id === anakId);
+            if (idx === -1) return;
+
+            if (!appData.anak[idx].hafalan_list) {
+                appData.anak[idx].hafalan_list = [];
+            }
+
+            if (isChecked) {
+                if (!appData.anak[idx].hafalan_list.includes(surahName)) {
+                    appData.anak[idx].hafalan_list.push(surahName);
+                }
+            } else {
+                appData.anak[idx].hafalan_list = appData.anak[idx].hafalan_list.filter(s => s !== surahName);
+            }
+
+            appData.anak[idx].tglupdate = getTodayDateStr();
+            saveState('anak');
+            syncWithGoogleSheets('anak');
+            showToast(`Hafalan ${appData.anak[idx].nama} diperbarui!`);
+            
+            // Re-render data progres bacaan secara halus tanpa refresh halaman
+            renderProgressBacaan();
         }
 
         function updateQuickProgress(id) {
@@ -1732,6 +1803,10 @@
                 select.innerHTML += `<option value="${a.noreg}">${a.nama} (${a.noreg})</option>`;
             });
 
+            // Render Checklist Surah Juz 30
+            renderSurahChecklist();
+            document.getElementById('search-surah-checklist').value = '';
+
             if (id) {
                 document.getElementById('modal-jadwal-title').textContent = "Edit Rencana Setoran";
                 const j = appData.jadwal.find(item => item.id === id);
@@ -1740,12 +1815,28 @@
                     document.getElementById('jadwal-noreg').value = j.noreg;
                     document.getElementById('jadwal-hari').value = j.hari;
                     document.getElementById('jadwal-tanggal').value = j.tanggal;
-                    document.getElementById('jadwal-surah').value = j.surah;
                     document.getElementById('jadwal-pembina').value = j.pembina;
+
+                    // Mengaktifkan kembali checkbox berdasarkan surah-surah yang tertulis di database
+                    SURAH_JUZ_30.forEach((s, idx) => {
+                        if (j.surah.includes(s)) {
+                            const cb = document.getElementById(`chk-surah-${idx}`);
+                            if (cb) cb.checked = true;
+                        }
+                    });
+
+                    // Mengambil sisa teks di luar nama surah sebagai nomor ayat
+                    let ayatText = j.surah;
+                    SURAH_JUZ_30.forEach(s => {
+                        ayatText = ayatText.replace(s, '');
+                    });
+                    ayatText = ayatText.replace(/,/g, '').replace(/\s+/g, ' ').trim();
+                    document.getElementById('jadwal-ayat').value = ayatText;
                 }
             } else {
                 document.getElementById('modal-jadwal-title').textContent = "Tambah Jadwal Agenda Baru";
                 document.getElementById('jadwal-tanggal').value = getTodayDateStr();
+                document.getElementById('jadwal-ayat').value = '';
             }
 
             document.getElementById('modal-jadwal').classList.remove('hidden');
@@ -1755,14 +1846,50 @@
             document.getElementById('modal-jadwal').classList.add('hidden');
         }
 
+        function renderSurahChecklist() {
+            const container = document.getElementById('surah-checklist-container');
+            if (!container) return;
+            container.innerHTML = '';
+            SURAH_JUZ_30.forEach((surah, index) => {
+                const div = document.createElement('div');
+                div.className = "flex items-center space-x-2 surah-item-checkbox";
+                div.setAttribute('data-name', surah.toLowerCase());
+                div.innerHTML = `
+                    <input type="checkbox" id="chk-surah-${index}" value="${surah}" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 h-3.5 w-3.5 cursor-pointer">
+                    <label for="chk-surah-${index}" class="text-xs text-slate-700 select-none cursor-pointer">${surah}</label>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function filterSurahChecklist() {
+            const query = document.getElementById('search-surah-checklist').value.toLowerCase();
+            const items = document.querySelectorAll('.surah-item-checkbox');
+            items.forEach(item => {
+                const name = item.getAttribute('data-name');
+                if (name.includes(query)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
         function handleJadwalSubmit(e) {
             e.preventDefault();
             const id = document.getElementById('jadwal-id').value;
             const noreg = document.getElementById('jadwal-noreg').value;
             const hari = document.getElementById('jadwal-hari').value;
             const tanggal = document.getElementById('jadwal-tanggal').value;
-            const surah = document.getElementById('jadwal-surah').value.trim();
             const pembina = document.getElementById('jadwal-pembina').value.trim();
+
+            const checkedSurahs = Array.from(document.querySelectorAll('#surah-checklist-container input[type="checkbox"]:checked')).map(cb => cb.value);
+            if (checkedSurahs.length === 0) {
+                showToast("Harap pilih minimal satu surah dari daftar checklist!", true);
+                return;
+            }
+            const ayatVal = document.getElementById('jadwal-ayat').value.trim();
+            const surah = checkedSurahs.join(', ') + (ayatVal ? ' ' + ayatVal : '');
 
             if (id) {
                 const idx = appData.jadwal.findIndex(j => j.id === id);
@@ -1810,8 +1937,21 @@
                 appData.anak[aIdx].surah = j.surah;
                 appData.anak[aIdx].tglupdate = getTodayDateStr();
                 appData.anak[aIdx].catatan = `Setoran diselesaikan via jadwal setoran (${j.surah})`;
+
+                // 3. Tambahkan ke hafalan_list otomatis jika surah terdeteksi di dalam Juz 30
+                if (!appData.anak[aIdx].hafalan_list) {
+                    appData.anak[aIdx].hafalan_list = [];
+                }
+                SURAH_JUZ_30.forEach(s => {
+                    if (j.surah.includes(s)) {
+                        if (!appData.anak[aIdx].hafalan_list.includes(s)) {
+                            appData.anak[aIdx].hafalan_list.push(s);
+                        }
+                    }
+                });
+
                 saveState('anak');
-                showToast(`Setoran selesai! Otomatis terekap ke progres mengaji ${appData.anak[aIdx].nama}`);
+                showToast(`Setoran selesai! Otomatis terekap ke progres hafalan Juz 30 ${appData.anak[aIdx].nama}`);
                 syncWithGoogleSheets('anak');
             } else {
                 showToast("Agenda setoran ditandai sebagai Selesai.");
@@ -1967,11 +2107,11 @@
 
         function getPredikat(score) {
             if (!score) return '-';
-            if (score >= 90) return 'Sangat Baik (A)';
-            if (score >= 80) return 'Baik (B)';
-            if (score >= 70) return 'Cukup (C)';
-            if (score >= 60) return 'Kurang (D)';
-            return 'Remedial (E)';
+            if (score >= 90) return 'Istimewa (A)';
+            if (score >= 80) return 'Sangat Baik (B)';
+            if (score >= 70) return 'Baik (C)';
+            if (score >= 60) return 'Cukup (D)';
+            return 'Kurang (E)';
         }
 
         function saveRapor() {
@@ -2143,6 +2283,7 @@
                 type: 'line',
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Juni'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Juni'],
                     datasets: [{
                         label: 'Rata-rata Target Juz 30 (Surah diselesaikan)',
                         data: [5, 9, 14, 18, 25, 29],
@@ -2239,7 +2380,6 @@
                 showToast("Gagal sinkronisasi data ke cloud.", true);
             });
         }
-
 
         // --- 3. FUNGSI UTILITAS TANGGAL & NAMA HARI ---
         function getTodayDateStr() {
