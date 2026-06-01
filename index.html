@@ -283,11 +283,9 @@
                     <div>
                         <select id="filter-kamar" onchange="filterAnakBinaan()" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                             <option value="">Semua Kamar Hunian</option>
-                            <option value="Kamar A1">Kamar A1</option>
-                            <option value="Kamar A2">Kamar A2</option>
-                            <option value="Kamar B1">Kamar B1</option>
-                            <option value="Kamar B2">Kamar B2</option>
-                            <option value="Kamar C1">Kamar C1</option>
+                            <option value="Kamar Ahmad Dahlan">Kamar Ahmad Dahlan</option>
+                            <option value="Kamar Ki Hajar Dewantara">Kamar Ki Hajar Dewantara</option>
+                            <option value="Kamar Cut Nyak Dien">Kamar Cut Nyak Dien</option>
                         </select>
                     </div>
                     <div>
@@ -534,6 +532,11 @@
                                 <textarea id="rapor-catatan" rows="3" placeholder="Tulis catatan perkembangan akhlak & bacaan..." class="w-full px-2 py-1 border border-slate-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"></textarea>
                             </div>
 
+                            <div>
+                                <label class="text-xs font-semibold text-slate-600 block mb-1">Tanggal Terbit Rapor *</label>
+                                <input type="date" id="rapor-tanggal-terbit" onchange="updateRaporPreview(document.getElementById('rapor-select-anak').value)" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            </div>
+
                             <div class="flex gap-2 pt-2">
                                 <button onclick="saveRapor()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded text-xs transition">Simpan Data Rapor</button>
                                 <button onclick="resetRaporForm()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-2 rounded text-xs">Reset</button>
@@ -559,7 +562,7 @@
                                 <div class="absolute left-0 top-0 w-12 h-12 flex items-center justify-center bg-emerald-800 text-amber-300 rounded-full font-bold text-xl">
                                     <i class="fa-solid fa-mosque"></i>
                                 </div>
-                                <h2 class="text-md font-bold uppercase tracking-wider">Kementerian Imigrasi dan Pemasyarakatan</h2>
+                                <h2 class="text-md font-bold uppercase tracking-wider">Kementerian Imigrasi dan Pemasyarakatan Republik Indonesia</h2>
                                 <h1 class="text-lg font-extrabold uppercase text-emerald-800">Lembaga Pembinaan Khusus Anak (LPKA) Kelas II Yogyakarta</h1>
                                 <p class="text-[10px] text-slate-500 italic">Sistem Informasi Rapor Al-Qur'an dan Hafalan (SIRAFAH)</p>
                             </div>
@@ -696,7 +699,7 @@
                                     <p>Yogyakarta, <span id="r-tgl-cetak">01 Juni 2026</span></p>
                                     <p class="font-semibold">Kepala Seksi Pembinaan</p>
                                     <div class="h-16"></div>
-                                    <p class="font-bold underline">ARIS YULIANTO</p>
+                                    <p class="font-bold underline">ARIS YULIARTO</p>
                                     <p class="text-[10px] text-slate-500">NIP. </p>
                                 </div>
                             </div>
@@ -877,11 +880,9 @@
                     <div>
                         <label class="text-xs font-semibold text-slate-600 block mb-1">Kamar Hunian *</label>
                         <select id="anak-kamar" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            <option value="Kamar A1">Kamar A1</option>
-                            <option value="Kamar A2">Kamar A2</option>
-                            <option value="Kamar B1">Kamar B1</option>
-                            <option value="Kamar B2">Kamar B2</option>
-                            <option value="Kamar C1">Kamar C1</option>
+                            <option value="Kamar Ahmad Dahlan">Kamar Ahmad Dahlan</option>
+                            <option value="Kamar Ki Hajar Dewantara">Kamar Ki Hajar Dewantara</option>
+                            <option value="Kamar Cut Nyak Dien">Kamar Cut Nyak Dien</option>
                         </select>
                     </div>
                     <div>
@@ -971,11 +972,11 @@
     <script>
         // --- 1. SEED DATA / STATE AWAL (Untuk Mode Simulasi Offline / LocalStorage) ---
         const DEFAULT_ANAK = [
-            { id: "1", noreg: "REG-1011/B", nama: "Faisal Rahman", kamar: "Kamar A1", kelompok: "Tahfidz Juz 30", tglmasuk: "2025-01-10", status: "Aktif", juz: "30", surah: "An-Naba'", ayat: "20", catatan: "Fokus kelancaran makhraj kho'", tglupdate: "2026-05-30" },
-            { id: "2", noreg: "REG-1025/B", nama: "Aditya Pratama", kamar: "Kamar A2", kelompok: "Al-Quran Dasar", tglmasuk: "2025-03-15", status: "Aktif", juz: "1", surah: "Al-Baqarah", ayat: "45", catatan: "Tajwid izhar harus konsisten", tglupdate: "2026-05-29" },
-            { id: "3", noreg: "REG-1044/C", nama: "Rian Hidayat", kamar: "Kamar B1", kelompok: "Iqra 4-6", tglmasuk: "2025-06-01", status: "Aktif", juz: "Iqra 5", surah: "Halaman 12", ayat: "-", catatan: "Terbata-bata pada huruf bersambung", tglupdate: "2026-05-28" },
-            { id: "4", noreg: "REG-1052/B", nama: "Yusuf Al-Ghifari", kamar: "Kamar A1", kelompok: "Tahfidz Juz 30", tglmasuk: "2025-02-18", status: "Aktif", juz: "30", surah: "Ad-Duha", ayat: "11", catatan: "Selesai surah ad-duha, lancar jaya", tglupdate: "2026-05-30" },
-            { id: "5", noreg: "REG-1060/A", nama: "Budi Santoso", kamar: "Kamar C1", kelompok: "Iqra 1-3", tglmasuk: "2025-08-20", status: "Tidak Aktif", juz: "Iqra 2", surah: "Halaman 5", ayat: "-", catatan: "Izin pengurusan kepulangan", tglupdate: "2026-04-15" }
+            { id: "1", noreg: "REG-1011/B", nama: "Faisal Rahman", kamar: "Kamar Ahmad Dahlan", kelompok: "Tahfidz Juz 30", tglmasuk: "2025-01-10", status: "Aktif", juz: "30", surah: "An-Naba'", ayat: "20", catatan: "Fokus kelancaran makhraj kho'", tglupdate: "2026-05-30" },
+            { id: "2", noreg: "REG-1025/B", nama: "Aditya Pratama", kamar: "Kamar Ki Hajar Dewantara", kelompok: "Al-Quran Dasar", tglmasuk: "2025-03-15", status: "Aktif", juz: "1", surah: "Al-Baqarah", ayat: "45", catatan: "Tajwid izhar harus konsisten", tglupdate: "2026-05-29" },
+            { id: "3", noreg: "REG-1044/C", nama: "Rian Hidayat", kamar: "Kamar Cut Nyak Dien", kelompok: "Iqra 4-6", tglmasuk: "2025-06-01", status: "Aktif", juz: "Iqra 5", surah: "Halaman 12", ayat: "-", catatan: "Terbata-bata pada huruf bersambung", tglupdate: "2026-05-28" },
+            { id: "4", noreg: "REG-1052/B", nama: "Yusuf Al-Ghifari", kamar: "Kamar Ahmad Dahlan", kelompok: "Tahfidz Juz 30", tglmasuk: "2025-02-18", status: "Aktif", juz: "30", surah: "Ad-Duha", ayat: "11", catatan: "Selesai surah ad-duha, lancar jaya", tglupdate: "2026-05-30" },
+            { id: "5", noreg: "REG-1060/A", nama: "Budi Santoso", kamar: "Kamar Cut Nyak Dien", kelompok: "Iqra 1-3", tglmasuk: "2025-08-20", status: "Tidak Aktif", juz: "Iqra 2", surah: "Halaman 5", ayat: "-", catatan: "Izin pengurusan kepulangan", tglupdate: "2026-04-15" }
         ];
 
         const DEFAULT_ABSENSI = [
@@ -983,19 +984,19 @@
         ];
 
         const DEFAULT_JADWAL = [
-            { id: "j1", noreg: "REG-1011/B", hari: "Senin", tanggal: "2026-06-01", surah: "An-Nazi'at 1-20", pembina: "Ustadz Ahmad" },
-            { id: "j2", noreg: "REG-1052/B", hari: "Senin", tanggal: "2026-06-01", surah: "Abasa 1-15", pembina: "Ustadz Ahmad" },
-            { id: "j3", noreg: "REG-1025/B", hari: "Rabu", tanggal: "2026-06-03", surah: "Al-Baqarah 46-50", pembina: "Ustadz Hanif" }
+            { id: "j1", noreg: "REG-1011/B", hari: "Senin", tanggal: "2026-06-01", surah: "An-Nazi'at 1-20", pembina: "Ustadz Ahmad", status: "Belum" },
+            { id: "j2", noreg: "REG-1052/B", hari: "Senin", tanggal: "2026-06-01", surah: "Abasa 1-15", pembina: "Ustadz Ahmad", status: "Selesai" },
+            { id: "j3", noreg: "REG-1025/B", hari: "Rabu", tanggal: "2026-06-03", surah: "Al-Baqarah 46-50", pembina: "Ustadz Hanif", status: "Belum" }
         ];
 
         const DEFAULT_RAPOR = [
-            { noreg: "REG-1011/B", b_lancar: 85, b_tajwid: 88, b_makhraj: 82, b_adab: 90, h_terakhir: "Juz 30, An-Naba'", h_lancar: 90, h_tajwid: 85, h_kualitas: 88, catatan: "Perkembangan hafalan sangat bagus, anak bersemangat menjaga tajwid." },
-            { noreg: "REG-1052/B", b_lancar: 80, b_tajwid: 82, b_makhraj: 80, b_adab: 85, h_terakhir: "Juz 30, Ad-Duha", h_lancar: 82, h_tajwid: 80, h_kualitas: 80, catatan: "Sikap saat mengaji santun, tingkatkan kelancaran setoran." }
+            { noreg: "REG-1011/B", b_lancar: 85, b_tajwid: 88, b_makhraj: 82, b_adab: 90, h_terakhir: "Juz 30, An-Naba'", h_lancar: 90, h_tajwid: 85, h_kualitas: 88, tgl_terbit: "2026-06-01", catatan: "Perkembangan hafalan sangat bagus, anak bersemangat menjaga tajwid." },
+            { noreg: "REG-1052/B", b_lancar: 80, b_tajwid: 82, b_makhraj: 80, b_adab: 85, h_terakhir: "Juz 30, Ad-Duha", h_lancar: 82, h_tajwid: 80, h_kualitas: 80, tgl_terbit: "2026-06-01", catatan: "Sikap saat mengaji santun, tingkatkan kelancaran setoran." }
         ];
 
         const DEFAULT_ANNOUNCEMENTS = [
-            { id: "a1", title: "Ujian Semester Hafalan Juz 30", content: "Ujian hafalan semester genap akan dilaksanakan pada tanggal 15 Juni 2026.", author: "Ustadz Ahmad", date: "2 hari yang lalu" },
-            { id: "a2", title: "Kunjungan Pembinaan Kemenag", content: "Akan diadakan monitoring dari Kemenag DIY pada hari Kamis ini pukul 09.00 WIB.", author: "Pembina LPKA", date: "5 hari yang lalu" }
+            { id: "a1", title: "Ujian Semester Hafalan Juz 30", content: "Ujian hafalan semester genap akan dilaksanakan pada tanggal 15 Juni 2026.", author: "Ustadz Ahmad", date: "01 Juni 2026" },
+            { id: "a2", title: "Kunjungan Pembina Kemenag", content: "Akan diadakan monitoring dari Kemenag DIY pada hari Kamis ini pukul 09.00 WIB.", author: "Pembina LPKA", date: "28 Mei 2026" }
         ];
 
         // --- State Utama ---
@@ -1676,6 +1677,14 @@
             } else {
                 dataToRender.forEach(j => {
                     const santri = appData.anak.find(a => a.noreg === j.noreg) || { nama: 'Santri' };
+                    
+                    // Cek status setoran untuk menentukan tampilan tombol centang / badge selesai
+                    const statusBadgeOrBtn = j.status === 'Selesai' 
+                        ? `<span class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded-full font-bold flex items-center justify-center gap-1 shadow-sm"><i class="fa-solid fa-circle-check"></i> Selesai</span>`
+                        : `<button onclick="completeJadwal('${j.id}')" class="text-emerald-600 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 p-1.5 rounded transition" title="Tandai Selesai & Rekap Progres">
+                            <i class="fa-solid fa-square-check text-lg"></i>
+                           </button>`;
+
                     const tr = document.createElement('tr');
                     tr.className = "hover:bg-slate-50 transition";
                     tr.innerHTML = `
@@ -1690,7 +1699,8 @@
                         <td class="p-3 text-emerald-800 font-bold">${j.surah}</td>
                         <td class="p-3 text-slate-500">${j.pembina}</td>
                         <td class="p-3 text-center">
-                            <div class="flex items-center justify-center space-x-1">
+                            <div class="flex items-center justify-center space-x-1.5">
+                                ${statusBadgeOrBtn}
                                 <button onclick="editJadwal('${j.id}')" class="text-blue-600 hover:bg-blue-50 px-2 py-1 rounded transition" title="Edit Jadwal">
                                     <i class="fa-solid fa-edit"></i>
                                 </button>
@@ -1762,7 +1772,7 @@
                 }
             } else {
                 const newId = 'j_' + Date.now();
-                appData.jadwal.push({ id: newId, noreg, hari, tanggal, surah, pembina });
+                appData.jadwal.push({ id: newId, noreg, hari, tanggal, surah, pembina, status: "Belum" });
                 showToast("Berhasil menjadwalkan setoran baru!");
             }
 
@@ -1782,6 +1792,32 @@
                 showToast("Jadwal terhapus.");
                 syncWithGoogleSheets('jadwal');
             }
+        }
+
+        function completeJadwal(id) {
+            const jIdx = appData.jadwal.findIndex(j => j.id === id);
+            if (jIdx === -1) return;
+
+            const j = appData.jadwal[jIdx];
+            
+            // 1. Ubah status agenda menjadi Selesai
+            j.status = "Selesai";
+            saveState('jadwal');
+
+            // 2. Rekap otomatis data tersebut ke tab Progres Bacaan / Database Anak
+            const aIdx = appData.anak.findIndex(a => a.noreg === j.noreg);
+            if (aIdx !== -1) {
+                appData.anak[aIdx].surah = j.surah;
+                appData.anak[aIdx].tglupdate = getTodayDateStr();
+                appData.anak[aIdx].catatan = `Setoran diselesaikan via jadwal setoran (${j.surah})`;
+                saveState('anak');
+                showToast(`Setoran selesai! Otomatis terekap ke progres mengaji ${appData.anak[aIdx].nama}`);
+                syncWithGoogleSheets('anak');
+            } else {
+                showToast("Agenda setoran ditandai sebagai Selesai.");
+            }
+            
+            syncWithGoogleSheets('jadwal');
         }
 
         // ================= RENDER: RAPOR DIGITAL =================
@@ -1821,6 +1857,7 @@
                 document.getElementById('rapor-hafalan-tajwid').value = r.h_tajwid;
                 document.getElementById('rapor-hafalan-kualitas').value = r.h_kualitas;
                 document.getElementById('rapor-catatan').value = r.catatan;
+                document.getElementById('rapor-tanggal-terbit').value = r.tgl_terbit || getTodayDateStr();
             } else {
                 resetRaporForm(false);
             }
@@ -1839,6 +1876,7 @@
             document.getElementById('rapor-hafalan-tajwid').value = '';
             document.getElementById('rapor-hafalan-kualitas').value = '';
             document.getElementById('rapor-catatan').value = '';
+            document.getElementById('rapor-tanggal-terbit').value = getTodayDateStr();
             resetRaporPreview();
         }
 
@@ -1923,7 +1961,8 @@
             document.getElementById('r-predikat-akhir').textContent = getPredikat(avg);
             document.getElementById('r-catatan-teks').textContent = `"${catatan}"`;
 
-            document.getElementById('r-tgl-cetak').textContent = getFormattedTodayDate();
+            const tgl_terbit_val = document.getElementById('rapor-tanggal-terbit').value;
+            document.getElementById('r-tgl-cetak').textContent = formatSavedDate(tgl_terbit_val);
         }
 
         function getPredikat(score) {
@@ -1932,7 +1971,7 @@
             if (score >= 80) return 'Baik (B)';
             if (score >= 70) return 'Cukup (C)';
             if (score >= 60) return 'Kurang (D)';
-            return 'Kurang (E)';
+            return 'Remedial (E)';
         }
 
         function saveRapor() {
@@ -1951,9 +1990,10 @@
             const h_tajwid = parseInt(document.getElementById('rapor-hafalan-tajwid').value) || 0;
             const h_kualitas = parseInt(document.getElementById('rapor-hafalan-kualitas').value) || 0;
             const catatan = document.getElementById('rapor-catatan').value.trim();
+            const tgl_terbit = document.getElementById('rapor-tanggal-terbit').value || getTodayDateStr();
 
             const idx = appData.rapor.findIndex(item => item.noreg === noreg);
-            const obj = { noreg, b_lancar, b_tajwid, b_makhraj, b_adab, h_terakhir, h_lancar, h_tajwid, h_kualitas, catatan };
+            const obj = { noreg, b_lancar, b_tajwid, b_makhraj, b_adab, h_terakhir, h_lancar, h_tajwid, h_kualitas, tgl_terbit, catatan };
 
             if (idx !== -1) {
                 appData.rapor[idx] = obj;
@@ -2218,6 +2258,17 @@
             const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             const d = new Date();
             return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
+        }
+
+        function formatSavedDate(dateStr) {
+            if (!dateStr) return getFormattedTodayDate();
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return getFormattedTodayDate();
+            const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            const year = parts[0];
+            const monthIndex = parseInt(parts[1], 10) - 1;
+            const day = parseInt(parts[2], 10);
+            return day + " " + months[monthIndex] + " " + year;
         }
 
         function getHariName(dateObj) {
