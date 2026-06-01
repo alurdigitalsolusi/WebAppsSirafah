@@ -136,7 +136,7 @@
             <!-- ================= TAB: DASHBOARD ================= -->
             <section id="tab-dashboard" class="tab-content space-y-6">
                 <!-- Banner Islami -->
-                <div class="bg-gradient-to-r from-emerald-800 to-teal-700 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                <div class="bg-gradient-to-r from-emerald-950/90 to-teal-900/80 rounded-2xl p-6 text-white shadow-md relative overflow-hidden" style="background-image: linear-gradient(to right, rgba(6, 78, 59, 0.95), rgba(13, 148, 136, 0.85)), url('background.jpeg'); background-size: cover; background-position: center;">
                     <div class="absolute right-0 bottom-0 opacity-10 translate-x-10 translate-y-10">
                         <i class="fa-solid fa-mosque text-[200px]"></i>
                     </div>
@@ -241,20 +241,11 @@
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
                         <div>
                             <h4 class="font-bold text-slate-700 mb-3"><i class="fa-solid fa-bullhorn text-emerald-600 mr-2"></i>Pengumuman Pembinaan</h4>
-                            <div class="space-y-3">
-                                <div class="p-3 bg-emerald-50 rounded-lg border-l-4 border-emerald-600 text-xs">
-                                    <p class="font-bold text-emerald-900">Ujian Semester Hafalan Juz 30</p>
-                                    <p class="text-slate-600 mt-1">Ujian hafalan semester genap akan dilaksanakan pada tanggal 15 Juni 2026.</p>
-                                    <span class="text-[10px] text-emerald-700 block mt-1 font-semibold">Ustadz Ahmad - 2 hari yang lalu</span>
-                                </div>
-                                <div class="p-3 bg-amber-50 rounded-lg border-l-4 border-amber-500 text-xs">
-                                    <p class="font-bold text-amber-900">Kunjungan Pembinaan Kemenag</p>
-                                    <p class="text-slate-600 mt-1">Akan diadakan monitoring dari Kemenag DIY pada hari Kamis ini pukul 09.00 WIB.</p>
-                                    <span class="text-[10px] text-amber-700 block mt-1 font-semibold">Pembina LPKA - 5 hari yang lalu</span>
-                                </div>
+                            <div id="announcement-list-container" class="space-y-3 max-h-72 overflow-y-auto">
+                                <!-- Rendered dynamically -->
                             </div>
                         </div>
-                        <button onclick="addAnnouncement()" class="mt-4 w-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-3 rounded-lg text-xs transition border border-emerald-200">
+                        <button onclick="openAnnouncementModal()" class="mt-4 w-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-3 rounded-lg text-xs transition border border-emerald-200">
                             + Tambah Pengumuman Baru
                         </button>
                     </div>
@@ -830,6 +821,34 @@
         </div>
     </div>
 
+    <!-- ================= MODAL: TAMBAH PENGUMUMAN ================= -->
+    <div id="modal-announcement" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-xl shadow-xl overflow-hidden animate-in fade-in-50 duration-200">
+            <div class="p-5 bg-emerald-950 text-white flex justify-between items-center">
+                <h3 class="font-bold text-md text-amber-300"><i class="fa-solid fa-bullhorn mr-2"></i>Tambah Pengumuman Pembinaan</h3>
+                <button onclick="closeAnnouncementModal()" class="text-white hover:text-amber-300"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="form-announcement" onsubmit="handleAnnouncementSubmit(event)" class="p-5 space-y-4">
+                <div>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Judul Pengumuman *</label>
+                    <input type="text" id="announce-title" required placeholder="Contoh: Jadwal Ujian Tahfidz" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Konten / Isi Pengumuman *</label>
+                    <textarea id="announce-content" required rows="3" placeholder="Tulis isi detail pengumuman..." class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Penulis / Pembina *</label>
+                    <input type="text" id="announce-author" required value="Ustadz Ahmad" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div class="flex gap-2 justify-end pt-2">
+                    <button type="button" onclick="closeAnnouncementModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-xs font-semibold hover:bg-slate-50">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs shadow-sm">Kirim Pengumuman</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ================= MODAL: TAMBAH/EDIT ANAK BINAAN ================= -->
     <div id="modal-anak" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white w-full max-w-lg rounded-xl shadow-xl overflow-hidden my-8">
@@ -967,12 +986,18 @@
             { noreg: "REG-1052/B", b_lancar: 80, b_tajwid: 82, b_makhraj: 80, b_adab: 85, h_terakhir: "Juz 30, Ad-Duha", h_lancar: 82, h_tajwid: 80, h_kualitas: 80, catatan: "Sikap saat mengaji santun, tingkatkan kelancaran setoran." }
         ];
 
+        const DEFAULT_ANNOUNCEMENTS = [
+            { id: "a1", title: "Ujian Semester Hafalan Juz 30", content: "Ujian hafalan semester genap akan dilaksanakan pada tanggal 15 Juni 2026.", author: "Ustadz Ahmad", date: "2 hari yang lalu" },
+            { id: "a2", title: "Kunjungan Pembinaan Kemenag", content: "Akan diadakan monitoring dari Kemenag DIY pada hari Kamis ini pukul 09.00 WIB.", author: "Pembina LPKA", date: "5 hari yang lalu" }
+        ];
+
         // --- State Utama ---
         let appData = {
             anak: [],
             absensi: [],
             jadwal: [],
             rapor: [],
+            announcements: [],
             apiUrl: ""
         };
 
@@ -988,8 +1013,8 @@
 
         // Mengatur State dari Local Storage atau Default Seed Data
         function initStorage() {
-            const keys = ['anak', 'absensi', 'jadwal', 'rapor'];
-            const defaults = [DEFAULT_ANAK, DEFAULT_ABSENSI, DEFAULT_JADWAL, DEFAULT_RAPOR];
+            const keys = ['anak', 'absensi', 'jadwal', 'rapor', 'announcements'];
+            const defaults = [DEFAULT_ANAK, DEFAULT_ABSENSI, DEFAULT_JADWAL, DEFAULT_RAPOR, DEFAULT_ANNOUNCEMENTS];
             
             keys.forEach((key, index) => {
                 const stored = localStorage.getItem('sirafah_' + key);
@@ -1046,6 +1071,9 @@
                 item.classList.add('text-emerald-100', 'hover:bg-emerald-800', 'hover:text-white');
             });
 
+            // Pemetaan dropdown rapor dilakukan langsung agar sinkron
+            populateRaporDropdown();
+
             // Aktifkan style untuk menu terpilih
             const activeNav = document.getElementById('nav-' + tabId);
             if (activeNav) {
@@ -1069,11 +1097,6 @@
             document.getElementById('sidebar-nav').classList.add('hidden');
             if (window.innerWidth >= 768) {
                 document.getElementById('sidebar-nav').classList.remove('hidden');
-            }
-
-            // Refresh render khusus jika perlu
-            if (tabId === 'rapor') {
-                populateRaporDropdown();
             }
         }
 
@@ -1128,6 +1151,8 @@
             renderProgressBacaan();
             renderJadwalSetoran();
             renderLaporanTab();
+            renderAnnouncements();
+            populateRaporDropdown();
         }
 
         // ================= RENDER: DASHBOARD =================
@@ -1190,6 +1215,70 @@
             }
 
             document.getElementById('dash-hari-ini').textContent = getHariName(new Date()) + ", " + todayStr;
+        }
+
+        // ================= MODAL & SISTEM PENGUMUMAN =================
+        function renderAnnouncements() {
+            const container = document.getElementById('announcement-list-container');
+            container.innerHTML = '';
+
+            if (appData.announcements.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Belum ada pengumuman hari ini.</p>`;
+                return;
+            }
+
+            appData.announcements.forEach(a => {
+                const item = document.createElement('div');
+                item.className = "p-3 bg-emerald-50 rounded-lg border-l-4 border-emerald-600 text-xs shadow-sm relative group";
+                item.innerHTML = `
+                    <button onclick="deleteAnnouncement('${a.id}')" class="absolute top-2 right-2 text-rose-400 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition duration-150">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    <p class="font-bold text-emerald-900">${a.title}</p>
+                    <p class="text-slate-600 mt-1">${a.content}</p>
+                    <span class="text-[10px] text-emerald-700 block mt-1 font-semibold">${a.author} - ${a.date}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function openAnnouncementModal() {
+            document.getElementById('form-announcement').reset();
+            document.getElementById('modal-announcement').classList.remove('hidden');
+        }
+
+        function closeAnnouncementModal() {
+            document.getElementById('modal-announcement').classList.add('hidden');
+        }
+
+        function handleAnnouncementSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('announce-title').value.trim();
+            const content = document.getElementById('announce-content').value.trim();
+            const author = document.getElementById('announce-author').value.trim();
+
+            const newAnnounce = {
+                id: 'a_' + Date.now(),
+                title: title,
+                content: content,
+                author: author,
+                date: "Baru saja"
+            };
+
+            appData.announcements.unshift(newAnnounce);
+            saveState('announcements');
+            closeAnnouncementModal();
+            showToast("Pengumuman berhasil dipublikasi!");
+            renderAnnouncements();
+        }
+
+        function deleteAnnouncement(id) {
+            if (confirm("Hapus pengumuman ini?")) {
+                appData.announcements = appData.announcements.filter(a => a.id !== id);
+                saveState('announcements');
+                showToast("Pengumuman dihapus.");
+                renderAnnouncements();
+            }
         }
 
         // ================= RENDER: DATA ANAK BINAAN =================
@@ -1455,24 +1544,32 @@
             const activeAnak = appData.anak.filter(a => a.status === 'Aktif');
 
             activeAnak.forEach(a => {
-                // Hitung estimasi persentase progres Al-Qur'an (Juz 1 s.d 30)
                 let pct = 0;
                 let progressText = "";
                 
-                if (a.juz.includes("Iqra")) {
-                    // Skala iqra
-                    const lvl = parseInt(a.juz.replace("Iqra", "").trim()) || 1;
+                const isIqra = String(a.juz).includes("Iqra");
+                if (isIqra) {
+                    const lvl = parseInt(String(a.juz).replace("Iqra", "").trim()) || 1;
                     pct = Math.round((lvl / 6) * 30); // Max 30% untuk iqra
                     progressText = `Iqra ${lvl} - ${a.surah}`;
                 } else {
-                    // Alquran dasar / tahfidz
                     const juzNum = parseInt(a.juz) || 30;
                     if (juzNum === 30) {
-                        pct = 100; // Diasumsikan tamat/mendekati
+                        pct = 100; // Tamat / Juz 30 penuh
                     } else {
                         pct = Math.round(30 + ((juzNum / 30) * 70));
                     }
                     progressText = `Juz ${a.juz} - Surah ${a.surah} Ayat ${a.ayat}`;
+                }
+
+                // Hasilkan dropdown opsi tingkatan Juz/Iqra secara dinamis
+                let juzOptionsHtml = '';
+                for (let i = 1; i <= 6; i++) {
+                    const val = `Iqra ${i}`;
+                    juzOptionsHtml += `<option value="${val}" ${a.juz === val ? 'selected' : ''}>Iqra ${i}</option>`;
+                }
+                for (let i = 1; i <= 30; i++) {
+                    juzOptionsHtml += `<option value="${i}" ${String(a.juz) === String(i) ? 'selected' : ''}>Juz ${i}</option>`;
                 }
 
                 const card = document.createElement('div');
@@ -1505,13 +1602,20 @@
                         </div>
                     </div>
 
-                    <!-- Tombol Edit Cepat -->
-                    <div class="pt-3 border-t flex gap-2">
-                        <input type="text" id="quick-surah-${a.id}" placeholder="Surah/Hal..." class="px-2 py-1 border rounded text-xs flex-1">
-                        <input type="text" id="quick-catatan-${a.id}" placeholder="Catatan baru..." class="px-2 py-1 border rounded text-xs flex-1">
-                        <button onclick="updateQuickProgress('${a.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded text-xs shadow transition shrink-0">
-                            Simpan
-                        </button>
+                    <!-- Tombol Edit Cepat (Sesuai Halaman / Juz secara sinkron) -->
+                    <div class="pt-3 border-t flex flex-col gap-2">
+                        <div class="flex gap-1.5">
+                            <select id="quick-juz-${a.id}" class="px-2 py-1 border rounded text-[11px] bg-slate-50 font-medium text-slate-700 w-28 focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                                ${juzOptionsHtml}
+                            </select>
+                            <input type="text" id="quick-surah-${a.id}" value="${a.surah}" placeholder="Surah / Halaman..." class="px-2 py-1 border rounded text-xs flex-1 focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                        </div>
+                        <div class="flex gap-1.5">
+                            <input type="text" id="quick-catatan-${a.id}" value="${a.catatan || ''}" placeholder="Catatan perkembangan..." class="px-2 py-1 border rounded text-xs flex-1 focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                            <button onclick="updateQuickProgress('${a.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded text-xs shadow transition shrink-0">
+                                Update
+                              </button>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -1519,11 +1623,13 @@
         }
 
         function updateQuickProgress(id) {
+            const juzVal = document.getElementById(`quick-juz-${id}`).value;
             const surahVal = document.getElementById(`quick-surah-${id}`).value.trim();
             const catatanVal = document.getElementById(`quick-catatan-${id}`).value.trim();
 
             const idx = appData.anak.findIndex(a => a.id === id);
             if (idx !== -1) {
+                appData.anak[idx].juz = juzVal;
                 if (surahVal) appData.anak[idx].surah = surahVal;
                 if (catatanVal) appData.anak[idx].catatan = catatanVal;
                 appData.anak[idx].tglupdate = getTodayDateStr();
@@ -1675,6 +1781,7 @@
         // ================= RENDER: RAPOR DIGITAL =================
         function populateRaporDropdown() {
             const select = document.getElementById('rapor-select-anak');
+            if(!select) return;
             select.innerHTML = '<option value="">-- Pilih Anak Binaan --</option>';
             appData.anak.forEach(a => {
                 select.innerHTML += `<option value="${a.noreg}">${a.nama} (${a.noreg})</option>`;
