@@ -136,16 +136,24 @@
             <!-- ================= TAB: DASHBOARD ================= -->
             <section id="tab-dashboard" class="tab-content space-y-6">
                 <!-- Banner Islami -->
-                <div class="bg-gradient-to-r from-emerald-950/90 to-teal-900/80 rounded-2xl p-6 text-white shadow-md relative overflow-hidden" style="background-image: linear-gradient(to right, rgba(6, 78, 59, 0.95), rgba(13, 148, 136, 0.85)), url('background.jpeg'); background-size: cover; background-position: center;">
-                    <div class="absolute right-0 bottom-0 opacity-10 translate-x-10 translate-y-10">
+                <div class="bg-gradient-to-r from-emerald-950 to-teal-900 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                    <div class="absolute right-0 bottom-0 opacity-5 translate-x-10 translate-y-10">
                         <i class="fa-solid fa-mosque text-[200px]"></i>
                     </div>
-                    <div class="relative z-10 space-y-2">
-                        <p class="text-amber-300 font-semibold tracking-wide text-xs md:text-sm uppercase">Sistem Informasi Rapor Al-Qur'an dan Hafalan</p>
-                        <h2 class="text-2xl md:text-3xl font-extrabold text-white">Monitoring Pembinaan Keagamaan Anak Binaan</h2>
-                        <p class="text-emerald-100 text-xs md:text-sm max-w-2xl">Mewujudkan generasi anak binaan LPKA Kelas II Yogyakarta yang berakhlakul karimah, gemar membaca Al-Qur'an, dan memiliki hafalan yang kokoh.</p>
-                        <p class="arabic-font text-amber-200 text-xl md:text-2xl pt-2">"خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ"</p>
-                        <p class="text-[10px] text-emerald-200 italic">"Sebaik-baik kalian adalah orang yang mempelajari Al-Qur'an dan mengajarkannya." (HR. Bukhari)</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center relative z-10">
+                        <div class="lg:col-span-2 space-y-3">
+                            <p class="text-amber-300 font-semibold tracking-wide text-xs md:text-sm uppercase">Sistem Informasi Rapor Al-Qur'an dan Hafalan</p>
+                            <h2 class="text-2xl md:text-3xl font-extrabold text-white">Monitoring Pembinaan Keagamaan Anak Binaan</h2>
+                            <p class="text-emerald-100 text-xs md:text-sm max-w-2xl">Mewujudkan generasi anak binaan LPKA Kelas II Yogyakarta yang berakhlakul karimah, gemar membaca Al-Qur'an, dan memiliki hafalan yang kokoh.</p>
+                            <p class="arabic-font text-amber-200 text-xl md:text-2xl pt-2">"خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ"</p>
+                            <p class="text-[10px] text-emerald-200 italic">"Sebaik-baik kalian adalah orang yang mempelajari Al-Qur'an dan mengajarkannya." (HR. Bukhari)</p>
+                        </div>
+                        <div class="w-full h-44 rounded-xl overflow-hidden border-2 border-emerald-500/30 shadow-lg relative bg-emerald-950 hidden md:block">
+                            <img src="background.jpeg" alt="Islamic Art" class="w-full h-full object-cover opacity-80" onerror="this.src='https://placehold.co/600x400/064e3b/ffffff?text=Al-Qur%27an'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/80 via-transparent to-transparent flex items-end p-3">
+                                <span class="text-[10px] text-amber-300 font-bold bg-emerald-900/80 px-2 py-0.5 rounded-full"><i class="fa-solid fa-kaaba mr-1"></i> LPKA Yogyakarta</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -212,42 +220,41 @@
                     </div>
                 </div>
 
-                <!-- Jadwal Setoran Hari ini & Pengumuman -->
+                <!-- Pengumuman Pembinaan & Mutiara Hikmah -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Jadwal Setoran Hari Ini -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2">
-                        <div class="flex justify-between items-center mb-4">
-                            <h4 class="font-bold text-slate-700"><i class="fa-solid fa-calendar-day text-amber-500 mr-2"></i>Jadwal Setoran Hari Ini</h4>
-                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2 py-1 rounded-full" id="dash-hari-ini">Senin</span>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse text-xs">
-                                <thead>
-                                    <tr class="bg-slate-100 text-slate-600">
-                                        <th class="p-3 font-semibold rounded-l-lg">Nama Lengkap</th>
-                                        <th class="p-3 font-semibold">Surah Target</th>
-                                        <th class="p-3 font-semibold">Pembina</th>
-                                        <th class="p-3 font-semibold rounded-r-lg text-center">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dash-jadwal-table">
-                                    <!-- Rendered dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Pengumuman Pembinaan -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <!-- Pengumuman Pembinaan (Sengaja diperlebar agar seimbang dan rapi) -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2 flex flex-col justify-between">
                         <div>
-                            <h4 class="font-bold text-slate-700 mb-3"><i class="fa-solid fa-bullhorn text-emerald-600 mr-2"></i>Pengumuman Pembinaan</h4>
-                            <div id="announcement-list-container" class="space-y-3 max-h-72 overflow-y-auto">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="font-bold text-slate-700"><i class="fa-solid fa-bullhorn text-emerald-600 mr-2"></i>Pengumuman Pembinaan</h4>
+                                <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full" id="dash-hari-ini">Senin</span>
+                            </div>
+                            <div id="announcement-list-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-80 overflow-y-auto pr-1">
                                 <!-- Rendered dynamically -->
                             </div>
                         </div>
-                        <button onclick="openAnnouncementModal()" class="mt-4 w-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold py-2 px-3 rounded-lg text-xs transition border border-emerald-200">
-                            + Tambah Pengumuman Baru
-                        </button>
+                        <div class="border-t pt-4 mt-4">
+                            <button onclick="openAnnouncementModal()" class="w-full sm:w-auto bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold py-2 px-4 rounded-lg text-xs transition border border-emerald-200 flex items-center justify-center space-x-1">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Tambah Pengumuman Baru</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mutiara Hikmah Harian -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between bg-gradient-to-b from-amber-50/30 to-transparent">
+                        <div class="space-y-4">
+                            <h4 class="font-bold text-slate-700"><i class="fa-solid fa-star-and-crescent text-amber-500 mr-2"></i>Mutiara Hikmah</h4>
+                            <div class="p-4 bg-amber-50/50 rounded-xl border border-amber-100 space-y-2">
+                                <p class="arabic-font text-right text-emerald-900 text-lg">"اقْرَءُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ"</p>
+                                <p class="text-xs text-slate-600 leading-relaxed italic">"Bacalah Al-Qur'an, karena sesungguhnya ia akan datang pada hari kiamat sebagai pemberi syafa'at bagi para pembacanya."</p>
+                                <p class="text-[10px] text-amber-700 font-bold text-right">— HR. Muslim</p>
+                            </div>
+                            <div class="p-3 bg-emerald-50/30 rounded-lg text-[11px] text-emerald-800 leading-relaxed border border-emerald-100/50">
+                                <i class="fa-solid fa-circle-info mr-1"></i>
+                                Selalu ingatkan anak binaan untuk menjaga wudhu dan membaca doa sebelum mulai menyetorkan hafalan Al-Qur'an.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1161,7 +1168,7 @@
             document.getElementById('stat-total-anak').textContent = anakAktif.length;
 
             const todayStr = getTodayDateStr();
-            const absToday = appData.absensi.find(a => a.date === todayStr);
+            const absToday = appData.absening || appData.absensi.find(a => a.date === todayStr);
 
             let hadirCount = 0;
             if (absToday) {
@@ -1189,32 +1196,36 @@
             const avgAbs = totalRecords > 0 ? Math.round((totalHadir / totalRecords) * 100) : 85; // fallback
             document.getElementById('stat-avg-absensi').textContent = avgAbs + "%";
 
-            // Dashboard Jadwal Table
+            // Dashboard Jadwal Table (Safely check if element exists since we removed it from the Dashboard layout)
             const dashTable = document.getElementById('dash-jadwal-table');
-            dashTable.innerHTML = '';
-            
-            if (jadwalToday.length === 0) {
-                dashTable.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Tidak ada jadwal setoran hari ini.</td></tr>`;
-            } else {
-                jadwalToday.forEach(j => {
-                    const ank = appData.anak.find(a => a.noreg === j.noreg) || { nama: 'Santri' };
-                    const tr = document.createElement('tr');
-                    tr.className = "border-b hover:bg-slate-50";
-                    tr.innerHTML = `
-                        <td class="p-3 font-semibold text-slate-700">${ank.nama}</td>
-                        <td class="p-3 text-emerald-800 font-medium">${j.surah}</td>
-                        <td class="p-3 text-slate-500">${j.pembina}</td>
-                        <td class="p-3 text-center">
-                            <button onclick="switchTab('rapor'); presetRaporSantri('${j.noreg}', '${j.surah}')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-2 py-1 rounded text-[10px] transition shadow-sm">
-                                <i class="fa-solid fa-pen-to-square"></i> Beri Nilai
-                            </button>
-                        </td>
-                    `;
-                    dashTable.appendChild(tr);
-                });
+            if (dashTable) {
+                dashTable.innerHTML = '';
+                if (jadwalToday.length === 0) {
+                    dashTable.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Tidak ada jadwal setoran hari ini.</td></tr>`;
+                } else {
+                    jadwalToday.forEach(j => {
+                        const ank = appData.anak.find(a => a.noreg === j.noreg) || { nama: 'Santri' };
+                        const tr = document.createElement('tr');
+                        tr.className = "border-b hover:bg-slate-50";
+                        tr.innerHTML = `
+                            <td class="p-3 font-semibold text-slate-700">${ank.nama}</td>
+                            <td class="p-3 text-emerald-800 font-medium">${j.surah}</td>
+                            <td class="p-3 text-slate-500">${j.pembina}</td>
+                            <td class="p-3 text-center">
+                                <button onclick="switchTab('rapor'); presetRaporSantri('${j.noreg}', '${j.surah}')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-2 py-1 rounded text-[10px] transition shadow-sm">
+                                    <i class="fa-solid fa-pen-to-square"></i> Beri Nilai
+                                </button>
+                            </td>
+                        `;
+                        dashTable.appendChild(tr);
+                    });
+                }
             }
 
-            document.getElementById('dash-hari-ini').textContent = getHariName(new Date()) + ", " + todayStr;
+            const dashHariIni = document.getElementById('dash-hari-ini');
+            if (dashHariIni) {
+                dashHariIni.textContent = getHariName(new Date()) + ", " + todayStr;
+            }
         }
 
         // ================= MODAL & SISTEM PENGUMUMAN =================
@@ -1223,7 +1234,7 @@
             container.innerHTML = '';
 
             if (appData.announcements.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Belum ada pengumuman hari ini.</p>`;
+                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-4 col-span-2">Belum ada pengumuman hari ini.</p>`;
                 return;
             }
 
