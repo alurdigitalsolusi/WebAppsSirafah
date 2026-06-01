@@ -1555,21 +1555,13 @@
             const activeAnak = appData.anak.filter(a => a.status === 'Aktif');
 
             activeAnak.forEach(a => {
-                let pct = 0;
                 let progressText = "";
                 
                 const isIqra = String(a.juz).includes("Iqra");
                 if (isIqra) {
                     const lvl = parseInt(String(a.juz).replace("Iqra", "").trim()) || 1;
-                    pct = Math.round((lvl / 6) * 30); // Max 30% untuk iqra
                     progressText = `Iqra ${lvl} - ${a.surah}`;
                 } else {
-                    const juzNum = parseInt(a.juz) || 30;
-                    if (juzNum === 30) {
-                        pct = 100; // Tamat / Juz 30 penuh
-                    } else {
-                        pct = Math.round(30 + ((juzNum / 30) * 70));
-                    }
                     progressText = `Juz ${a.juz} - Surah ${a.surah} Ayat ${a.ayat}`;
                 }
 
@@ -1595,14 +1587,14 @@
                             <span class="text-xs font-mono text-slate-400">${a.noreg}</span>
                         </div>
 
-                        <!-- Progress Bar -->
-                        <div>
-                            <div class="flex justify-between text-xs font-medium mb-1">
-                                <span class="text-emerald-700 font-bold">${progressText}</span>
-                                <span class="text-slate-500">${pct}%</span>
+                        <!-- Bacaan Terakhir Info Box (Tanpa Progress Bar) -->
+                        <div class="p-3 bg-emerald-50/50 rounded-xl border border-emerald-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Posisi Bacaan Terakhir</p>
+                                <p class="text-sm font-extrabold text-emerald-800 mt-0.5">${progressText}</p>
                             </div>
-                            <div class="w-full bg-slate-100 rounded-full h-2.5">
-                                <div class="bg-gradient-to-r from-emerald-500 to-emerald-700 h-2.5 rounded-full" style="width: ${pct}%"></div>
+                            <div class="text-emerald-700 bg-white shadow-sm border border-emerald-100 p-2 rounded-lg">
+                                <i class="fa-solid fa-book-open text-base"></i>
                             </div>
                         </div>
 
@@ -1616,10 +1608,11 @@
                     <!-- Tombol Edit Cepat (Sesuai Halaman / Juz secara sinkron) -->
                     <div class="pt-3 border-t flex flex-col gap-2">
                         <div class="flex gap-1.5">
-                            <select id="quick-juz-${a.id}" class="px-2 py-1 border rounded text-[11px] bg-slate-50 font-medium text-slate-700 w-28 focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                            <select id="quick-juz-${a.id}" class="px-2 py-1 border rounded text-[11px] bg-slate-50 font-medium text-slate-700 w-24 focus:outline-none focus:ring-1 focus:ring-emerald-500">
                                 ${juzOptionsHtml}
                             </select>
-                            <input type="text" id="quick-surah-${a.id}" value="${a.surah}" placeholder="Surah / Halaman..." class="px-2 py-1 border rounded text-xs flex-1 focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                            <input type="text" id="quick-surah-${a.id}" value="${a.surah}" placeholder="Surah / Hal..." class="px-2 py-1 border rounded text-xs flex-1 focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                            <input type="text" id="quick-ayat-${a.id}" value="${a.ayat || ''}" placeholder="Ayat..." class="px-2 py-1 border rounded text-xs w-16 focus:outline-none focus:ring-1 focus:ring-emerald-500">
                         </div>
                         <div class="flex gap-1.5">
                             <input type="text" id="quick-catatan-${a.id}" value="${a.catatan || ''}" placeholder="Catatan perkembangan..." class="px-2 py-1 border rounded text-xs flex-1 focus:outline-none focus:ring-1 focus:ring-emerald-500">
@@ -1636,12 +1629,14 @@
         function updateQuickProgress(id) {
             const juzVal = document.getElementById(`quick-juz-${id}`).value;
             const surahVal = document.getElementById(`quick-surah-${id}`).value.trim();
+            const ayatVal = document.getElementById(`quick-ayat-${id}`).value.trim();
             const catatanVal = document.getElementById(`quick-catatan-${id}`).value.trim();
 
             const idx = appData.anak.findIndex(a => a.id === id);
             if (idx !== -1) {
                 appData.anak[idx].juz = juzVal;
                 if (surahVal) appData.anak[idx].surah = surahVal;
+                appData.anak[idx].ayat = ayatVal || "-";
                 if (catatanVal) appData.anak[idx].catatan = catatanVal;
                 appData.anak[idx].tglupdate = getTodayDateStr();
 
